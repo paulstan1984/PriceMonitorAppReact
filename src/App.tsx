@@ -25,20 +25,39 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import { LoginComponent } from './components/loginComponent';
 import MainTabs from './components/MainTabs';
+import React, { useState } from 'react';
+import PrifileContext, { Profile } from './profilecontext';
 
 setupIonicReact();
 
-const isLoggedIn = false;
+const TOKEN = 'token';
 
-const App: React.FC = () => (
+const App: React.FC = () => {
 
-  <IonApp>
-    <IonReactRouter>
-      <Route path="/login" component={isLoggedIn ? MainTabs : LoginComponent} exact={true} />
-      <Route path="/" component={isLoggedIn ? MainTabs : LoginComponent} />
-    </IonReactRouter>
-  </IonApp>
+  //set the default isLoggedIn state to the value from the local storage
+  const token = localStorage.getItem(TOKEN);
+  const [profile, setProfile] = useState({ token: token != undefined ? token : '' });
+  const [isLoggedIn, setIsLoggedIn] = useState(token != undefined);
 
-);
+  const updateProfile = (profile: Profile) => {
+    setProfile(profile);
+
+    //store the profile in local storage
+    localStorage.setItem(TOKEN, profile.token);
+
+    setIsLoggedIn(profile.token.length > 0);
+  }
+
+  return (
+    <PrifileContext.Provider value={{ profile, updateProfile }}>
+      <IonApp>
+        <IonReactRouter>
+          <Route path="/login" component={isLoggedIn ? MainTabs : LoginComponent} exact={true} />
+          <Route path="/" component={isLoggedIn ? MainTabs : LoginComponent} />
+        </IonReactRouter>
+      </IonApp>
+    </PrifileContext.Provider>
+  )
+};
 
 export default App;

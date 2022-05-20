@@ -6,3 +6,10 @@
   display: block;
   width: 100%;
 }
+
+.error {
+  color:#FF0000;
+  width: 100%;
+  display: block;
+  padding: 2px;
+}
