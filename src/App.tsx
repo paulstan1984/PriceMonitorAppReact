@@ -40,11 +40,11 @@ const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(token != undefined);
 
   const updateProfile = (profile: Profile) => {
-    setProfile(profile);
-
+                   
     //store the profile in local storage
     localStorage.setItem(TOKEN, profile.token);
 
+    setProfile(profile);
     setIsLoggedIn(profile.token.length > 0);
   }
 
