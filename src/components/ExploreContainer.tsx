@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import PrifileContext from '../profilecontext';
+import ProfileContext from '../profilecontext';
 import './ExploreContainer.css';
 
 interface ContainerProps {
@@ -8,7 +8,7 @@ interface ContainerProps {
 
 const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
 
-  const { profile, updateProfile } = useContext(PrifileContext);
+  const { profile, updateProfile } = useContext(ProfileContext);
 
   return (
     <div className="container">

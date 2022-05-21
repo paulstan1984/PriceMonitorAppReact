@@ -4,9 +4,10 @@ export interface Profile {
     token: string;
 }
 
-const PrifileContext = React.createContext({
+const ProfileContext = React.createContext({
     profile: {token: ''},
-    updateProfile: (p: Profile) => { }
+    updateProfile: (p: Profile) => { },
+    logout: () => {}
 });
 
-export default PrifileContext;
+export default ProfileContext;

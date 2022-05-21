@@ -3,21 +3,21 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem
 import './loginComponent.css';
 import { AppConfigs } from '../config';
 import axios from 'axios';
-import PrifileContext from '../profilecontext';
+import ProfileContext from '../profilecontext';
 
 export const LoginComponent: React.FC = () => {
 
     const [loginRequest, setLoginRequest] = useState({ Username: '', Password: '' });
     const [errors, setErrors] = useState({ Username: '', Password: '' });
     const [submitted, setSubmitted] = useState(false);
-    const { profile, updateProfile } = useContext(PrifileContext);
+    const { updateProfile } = useContext(ProfileContext);
     const year = new Date().getFullYear();
 
     //when errors or submitted flag are updated try to submit the request to the api
     useEffect(() => {
         if (submitted && !errors.Username && !errors.Password) {
 
-            //call api
+            //call the API
             axios.post(AppConfigs.ApiURL + AppConfigs.LoginRoute, loginRequest)
                 .then(response => {
                     updateProfile(response.data);
