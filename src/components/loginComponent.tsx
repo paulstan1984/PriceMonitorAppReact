@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonFooter, IonText } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonFooter, IonText, IonProgressBar, IonSpinner } from '@ionic/react';
 import './loginComponent.css';
 import { AppConfigs } from '../config';
 import axios from 'axios';
@@ -12,11 +12,13 @@ export const LoginComponent: React.FC = () => {
     const [submitted, setSubmitted] = useState(false);
     const { updateProfile } = useContext(ProfileContext);
     const year = new Date().getFullYear();
+    const [loading, setLoading] = useState(false);
 
     //when errors or submitted flag are updated try to submit the request to the api
     useEffect(() => {
         if (submitted && !errors.Username && !errors.Password) {
 
+            setLoading(true);
             //call the API
             axios.post(AppConfigs.ApiURL + AppConfigs.LoginRoute, loginRequest)
                 .then(response => {
@@ -31,6 +33,7 @@ export const LoginComponent: React.FC = () => {
 
                     setSubmitted(false);
                     setErrors(apiErrors);
+                    setLoading(false);
                 });
         }
     }, [errors]);
@@ -67,6 +70,7 @@ export const LoginComponent: React.FC = () => {
             <IonContent>
                 <div className="container">
                     <form onSubmit={handleLogin}>
+                        {loading ? <IonSpinner name="circles" /> : ''}
                         <IonList>
                             <IonItem>
                                 <IonLabel color="danger" position="stacked">{errors.Username}</IonLabel>
