@@ -1,6 +1,7 @@
 import { Route } from 'react-router-dom';
 import {
   IonApp,
+  IonRouterContext,
   setupIonicReact,
   useIonRouter
 } from '@ionic/react';
@@ -48,6 +49,10 @@ const App: React.FC = () => {
 
     setProfile(profile);
     setIsLoggedIn(profile.token.length > 0);
+
+    if (profile.token.length > 0) {
+      router.push('/products');
+    }
   }
 
   const logout = () => {
@@ -60,10 +65,8 @@ const App: React.FC = () => {
   return (
     <ProfileContext.Provider value={{ profile, updateProfile, logout }}>
       <IonApp>
-        <IonReactRouter>
-          <Route path="/login" component={isLoggedIn ? MainTabs : LoginComponent} exact={true} />
-          <Route path="/" component={isLoggedIn ? MainTabs : LoginComponent} />
-        </IonReactRouter>
+        <Route path="/login" component={isLoggedIn ? MainTabs : LoginComponent} exact={true} />
+        <Route path="/" component={isLoggedIn ? MainTabs : LoginComponent} />
       </IonApp>
     </ProfileContext.Provider>
   )

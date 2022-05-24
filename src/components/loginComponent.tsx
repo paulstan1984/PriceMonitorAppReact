@@ -23,8 +23,14 @@ export const LoginComponent: React.FC = () => {
                     updateProfile(response.data);
                 })
                 .catch(err => {
+                    console.log(err);
+                    let apiErrors = err.response.data;
+                    if (err.code === "ERR_NETWORK") {
+                        apiErrors = { Username: err.message };
+                    }
+
                     setSubmitted(false);
-                    setErrors(err.response.data);
+                    setErrors(apiErrors);
                 });
         }
     }, [errors]);
