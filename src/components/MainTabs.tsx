@@ -9,7 +9,7 @@ import TabLogout from "../pages/TabLogout";
 const MainTabs: React.FC = () => {
 
     const onTabsDidChange = (e: CustomEvent) => {
-        console.log(e.detail.tab)
+        // console.log(e.detail.tab)
     }
 
     return (
