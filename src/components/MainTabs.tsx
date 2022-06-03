@@ -7,8 +7,13 @@ import { statsChartOutline, pricetagsOutline, addCircleOutline, exitOutline } fr
 import TabLogout from "../pages/TabLogout";
 
 const MainTabs: React.FC = () => {
+
+    const onTabsDidChange = (e: CustomEvent) => {
+        console.log(e.detail.tab)
+    }
+
     return (
-        <IonTabs>
+        <IonTabs onIonTabsDidChange={onTabsDidChange}>
             <IonRouterOutlet>
                 <Route exact path="/products">
                     <TabProducts />

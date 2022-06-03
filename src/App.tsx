@@ -65,8 +65,7 @@ const App: React.FC = () => {
   return (
     <ProfileContext.Provider value={{ profile, updateProfile, logout }}>
       <IonApp>
-        <Route path="/login" component={isLoggedIn ? MainTabs : LoginComponent} exact={true} />
-        <Route path="/" component={isLoggedIn ? MainTabs : LoginComponent} />
+        <Route component={isLoggedIn ? MainTabs : LoginComponent} />
       </IonApp>
     </ProfileContext.Provider>
   )

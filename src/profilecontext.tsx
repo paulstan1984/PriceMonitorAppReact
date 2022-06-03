@@ -5,9 +5,9 @@ export interface Profile {
 }
 
 const ProfileContext = React.createContext({
-    profile: {token: ''},
+    profile: { token: '' },
     updateProfile: (p: Profile) => { },
-    logout: () => {}
+    logout: () => { }
 });
 
 export default ProfileContext;

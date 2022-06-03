@@ -1,8 +1,7 @@
-import { IonContent, IonHeader, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
-import axios from 'axios';
+import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
 import { useContext, useEffect, useState } from 'react';
-import { AppConfigs } from '../config';
 import ProfileContext from '../profilecontext';
+import ProductsService from '../services/products';
 import './TabProducts.css';
 
 const TabProducts: React.FC = () => {
@@ -12,27 +11,13 @@ const TabProducts: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [erros, setErrors] = useState({});
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': profile.token
-  }
-
-  // how to call a function every time I enter in a tab
-  // display the returned products 
   // buy button clic
   // statistics tab
-  // remove prices tab
+  // prices tab
   useEffect(() => {
     setLoading(true);
-    axios.post(AppConfigs.ApiURL + AppConfigs.ProductsRoute, {
-      page: "1",
-      order_by: "id",
-      order_by_dir: "DESC"
-    }, {
-      headers: headers
-    })
+    ProductsService.GetProducts(profile.token)
       .then(response => {
-        console.log(response.data.results);
         setProducts(response.data.results);
         setLoading(false);
       })
@@ -62,9 +47,17 @@ const TabProducts: React.FC = () => {
         </IonHeader>
         <div className="container">
           {loading ? <IonSpinner name="circles" /> : ''}
-
-          <strong>Products</strong>
         </div>
+
+        {!loading ?
+          <IonList>
+            {products.map((p: any) => {
+              return <IonItem key={p.id}>
+                <IonLabel>{p.name}</IonLabel>
+              </IonItem>
+            })}
+          </IonList>
+          : ''}
       </IonContent>
     </IonPage>
   )
