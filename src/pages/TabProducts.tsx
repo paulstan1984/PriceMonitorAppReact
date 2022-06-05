@@ -1,57 +1,76 @@
-import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonSearchbar, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
 import { useContext, useEffect, useState } from 'react';
 import ProfileContext from '../profilecontext';
-import ProductsService from '../services/products';
+import { appDatabase } from '../services/database';
 import './TabProducts.css';
+import { useLiveQuery } from "dexie-react-hooks";
+import { addCircleOutline } from 'ionicons/icons';
+import { Product } from '../services/models/Product';
 
 const TabProducts: React.FC = () => {
 
-  const { profile, updateProfile } = useContext(ProfileContext);
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [erros, setErrors] = useState({});
+  const [searchText, setSearchText] = useState('');
+  const [showAddProd, setShowAddProd] = useState(false);
+  const [error, setError] = useState('');
+  const [msg, setMsg] = useState('');
 
-  // buy button clic
-  // statistics tab
-  // prices tab
+  const products = useLiveQuery(
+    async () => {
+      return appDatabase
+        .products
+        .where('name')
+        .startsWithIgnoreCase(searchText)
+        .toArray();
+    },
+    [searchText]
+  );
+
   useEffect(() => {
-    setLoading(true);
-    ProductsService.GetProducts(profile.token)
-      .then(response => {
-        setProducts(response.data.results);
-        setLoading(false);
-      })
-      .catch(err => {
-        let apiErrors = err.response.data;
-        if (err.code === "ERR_NETWORK") {
-          apiErrors = { Username: err.message };
-        }
+    setShowAddProd(products?.length == 0);
+  }, [products]);
 
-        setErrors(apiErrors);
-        setLoading(false);
-      });
-  }, []);
+  async function addProduct() {
+    try {
+      const id = await appDatabase.products.add({
+        name: searchText,
+        lastPrice: 0,
+        avgPrice: 0,
+        created_at: new Date(),
+        updated_at: new Date()
+      } as Product);
+
+      setMsg(`Product ${searchText} successfully added. Got id ${id}`);
+      setSearchText('');
+
+    } catch (error) {
+      setError(`Failed to add ${searchText}: ${error}`);
+    }
+  }
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Products</IonTitle>
+          <IonSearchbar value={searchText} onIonChange={e => setSearchText(e.detail.value!)}></IonSearchbar>
+          <IonButtons slot="end">
+            {showAddProd ? <IonButton color="primary" onClick={addProduct}>
+              <IonIcon icon={addCircleOutline} />
+            </IonButton> : ''}
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Products</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <div className="container">
           {loading ? <IonSpinner name="circles" /> : ''}
         </div>
 
+        <p color="primary">{msg}</p>
+        <p color="danger">{error}</p>
+
         {!loading ?
           <IonList>
-            {products.map((p: any) => {
+            {products?.map((p: any) => {
               return <IonItem key={p.id}>
                 <IonLabel>{p.name}</IonLabel>
               </IonItem>

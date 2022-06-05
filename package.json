@@ -21,6 +21,8 @@
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
     "axios": "^0.27.2",
+    "dexie": "^3.2.2",
+    "dexie-react-hooks": "^1.1.1",
     "ionicons": "^5.4.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
