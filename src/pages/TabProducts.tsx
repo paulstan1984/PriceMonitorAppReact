@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonSearchbar, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonModal, IonPage, IonSearchbar, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
 import { useContext, useEffect, useState } from 'react';
 import ProfileContext from '../profilecontext';
 import { appDatabase } from '../services/database';
@@ -14,6 +14,8 @@ const TabProducts: React.FC = () => {
   const [showAddProd, setShowAddProd] = useState(false);
   const [error, setError] = useState('');
   const [msg, setMsg] = useState('');
+  const [showEditModal, setshowEditModal] = useState(false);
+  const [cProduct, setCProduct] = useState({} as Product);
 
   const products = useLiveQuery(
     async () => {
@@ -48,6 +50,26 @@ const TabProducts: React.FC = () => {
     }
   }
 
+  async function editProduct(p: Product) {
+
+    setCProduct(p);
+    setshowEditModal(true);
+  }
+
+  async function deleteProduct(p: Product) {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      try {
+        await appDatabase.products.delete(p.id);
+
+        setMsg(`Product successfully deleted.`);
+        setSearchText('');
+
+      } catch (error) {
+        setError(`Failed to delete the product: ${error}`);
+      }
+    }
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -65,17 +87,31 @@ const TabProducts: React.FC = () => {
           {loading ? <IonSpinner name="circles" /> : ''}
         </div>
 
-        <p color="primary">{msg}</p>
-        <p color="danger">{error}</p>
-
         {!loading ?
-          <IonList>
-            {products?.map((p: any) => {
-              return <IonItem key={p.id}>
-                <IonLabel>{p.name}</IonLabel>
-              </IonItem>
-            })}
-          </IonList>
+          <div>
+            <p color="primary">{msg}</p>
+            <p color="danger">{error}</p>
+
+            <IonModal isOpen={showEditModal} swipeToClose={true} canDismiss={true}>
+              <IonContent>{cProduct.name}</IonContent>
+              <IonButton onClick={()=>setshowEditModal(false)}>Close</IonButton>
+            </IonModal>
+
+            <IonList>
+              {products?.map((p: any) => {
+                return <IonItemSliding>
+                  <IonItemOptions side="start">
+                    <IonItemOption onClick={() => editProduct(p)}>Edit</IonItemOption>
+                    <IonItemOption color="danger" onClick={() => deleteProduct(p)}>Delete</IonItemOption>
+                  </IonItemOptions>
+
+                  <IonItem key={p.id}>
+                    <IonLabel>{p.name}</IonLabel>
+                  </IonItem>
+                </IonItemSliding>
+              })}
+            </IonList>
+          </div>
           : ''}
       </IonContent>
     </IonPage>
