@@ -1,6 +1,5 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonModal, IonPage, IonSearchbar, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
-import { useContext, useEffect, useState } from 'react';
-import ProfileContext from '../profilecontext';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonModal, IonPage, IonSearchbar, IonSpinner, IonToolbar } from '@ionic/react';
+import { useEffect, useState } from 'react';
 import { appDatabase } from '../services/database';
 import './TabProducts.css';
 import { useLiveQuery } from "dexie-react-hooks";
@@ -93,13 +92,17 @@ const TabProducts: React.FC = () => {
             <p color="danger">{error}</p>
 
             <IonModal isOpen={showEditModal} swipeToClose={true} canDismiss={true}>
-              <IonContent>{cProduct.name}</IonContent>
-              <IonButton onClick={()=>setshowEditModal(false)}>Close</IonButton>
+              <IonContent>
+                <div className="container">
+                  <IonInput value={cProduct.name} placeholder="Product Name"/>
+                </div>
+              </IonContent>
+              <IonButton onClick={() => setshowEditModal(false)}>Close</IonButton>
             </IonModal>
 
             <IonList>
               {products?.map((p: any) => {
-                return <IonItemSliding>
+                return <IonItemSliding key={p.id}>
                   <IonItemOptions side="start">
                     <IonItemOption onClick={() => editProduct(p)}>Edit</IonItemOption>
                     <IonItemOption color="danger" onClick={() => deleteProduct(p)}>Delete</IonItemOption>
