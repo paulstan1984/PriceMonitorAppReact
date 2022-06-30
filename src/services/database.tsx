@@ -11,9 +11,15 @@ export class AppDatabaseDexie extends Dexie {
 
     constructor() {
         super('PriceAppDatabase');
+        
         this.version(1).stores({
             products: '++id, name',
-            prices: '++id, product_id',
+            prices: '++id, product_id,created_at',
+        });
+
+        this.version(2).stores({
+            products: '++id, name',
+            prices: '++id, product_id,created_at',
         });
     }
 }

@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { appDatabase } from '../services/database';
 import './TabProducts.css';
 import { useLiveQuery } from "dexie-react-hooks";
-import { addCircleOutline } from 'ionicons/icons';
+import { addCircleOutline, cartOutline } from 'ionicons/icons';
 import { Product } from '../services/models/Product';
+import { Price } from '../services/models/Price';
 
 const TabProducts: React.FC = () => {
 
@@ -13,6 +14,7 @@ const TabProducts: React.FC = () => {
   const [error, setError] = useState('');
   const [msg, setMsg] = useState('');
   const [showEditModal, setshowEditModal] = useState(false);
+  const [showBuyModal, setShowBuyModal] = useState(false);
   const [cProduct, setCProduct] = useState({} as Product);
   let pTimeout: NodeJS.Timeout;
 
@@ -34,7 +36,7 @@ const TabProducts: React.FC = () => {
     [searchText]
   );
 
-  //where there is no producr show the add product button
+  //where there is no product show the add product button
   useEffect(() => {
     setShowAddProd(products?.length == 0);
   }, [products]);
@@ -63,6 +65,34 @@ const TabProducts: React.FC = () => {
 
     setCProduct(p);
     setshowEditModal(true);
+  }
+
+  async function buyProduct(p: Product, store: boolean = false) {
+
+    if(!store){
+      setCProduct(p);
+      setShowBuyModal(true);
+    }
+    else{
+      try {
+        const id = await appDatabase.prices.add({
+          product_id: cProduct.id,
+          product_name: cProduct.name,
+          amount: cProduct.lastPrice,
+          created_at: new Date(),
+          updated_at: new Date()
+        } as Price);
+
+        await appDatabase.products.update(cProduct.id, p);
+
+        setMsg(`Product ${cProduct.name} successfully buyed.`);
+        setSearchText('');
+  
+      } catch (error) {
+        setError(`Failed to buy ${cProduct.name}: ${error}`);
+      }
+      setShowBuyModal(false);
+    }
   }
 
   //edit product handler
@@ -119,6 +149,25 @@ const TabProducts: React.FC = () => {
           <IonButton onClick={() => setshowEditModal(false)}>Close</IonButton>
         </IonModal>
 
+        <IonModal isOpen={showBuyModal} swipeToClose={true} canDismiss={true}>
+          <IonContent>
+            <div className="container">
+              <h1>{cProduct.name}</h1>
+              <IonInput value={cProduct.lastPrice} placeholder="Price" onIonChange={e => {
+                try{
+                  cProduct.lastPrice = parseInt(e.detail.value!)
+                }
+                catch(err) {
+                  cProduct.lastPrice = 0;
+                }
+                
+              }} />
+            </div>
+          </IonContent>
+          <IonButton color="secondary" onClick={() => buyProduct(cProduct, true)}>Buy</IonButton>
+          <IonButton onClick={() => setShowBuyModal(false)}>Close</IonButton>
+        </IonModal>        
+
         <IonList>
           {products?.map((p: any) => {
             return <IonItemSliding key={p.id}>
@@ -129,6 +178,10 @@ const TabProducts: React.FC = () => {
 
               <IonItem key={p.id}>
                 <IonLabel>{p.name}</IonLabel>
+
+                <IonButton color="primary" onClick={() => buyProduct(p, false)} fill="clear">
+                  <IonIcon icon={cartOutline}></IonIcon>
+                </IonButton>
               </IonItem>
             </IonItemSliding>
           })}
