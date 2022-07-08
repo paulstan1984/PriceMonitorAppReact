@@ -10,3 +10,11 @@
     text-align: center;
     width: 100%;
 }
+
+.day-0 {
+    --background: #F7E2BC!important;
+}
+
+.day-1 {
+    --background: #4FE4F3!important;
+}

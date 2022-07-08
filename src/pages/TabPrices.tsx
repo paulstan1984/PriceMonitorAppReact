@@ -10,14 +10,14 @@ const TabPrices: React.FC = () => {
   const [error, setError] = useState('');
   const [msg, setMsg] = useState('');
   let pTimeout: NodeJS.Timeout;
- 
+
   const prices = useLiveQuery(
     async () => {
 
-      if(pTimeout) {
+      if (pTimeout) {
         clearTimeout(pTimeout);
       }
-      pTimeout = setTimeout(() => {setMsg(''); setError('');}, 2000);
+      pTimeout = setTimeout(() => { setMsg(''); setError(''); }, 2000);
 
       let date = new Date();
       date.setDate(date.getDate() - 1);
@@ -36,12 +36,12 @@ const TabPrices: React.FC = () => {
       try {
         await appDatabase.prices.delete(p.id);
 
-        setMsg(`Product successfully deleted.`);
+        setMsg(`Price successfully deleted.`);
       } catch (error) {
         setError(`Failed to delete the price: ${error}`);
       }
     }
-  }  
+  }
 
   return (
     <IonPage>
@@ -57,6 +57,9 @@ const TabPrices: React.FC = () => {
           </IonToolbar>
         </IonHeader>
 
+        {msg ? <p color="primary" className="msg">{msg}</p> : ''}
+        {error ? <p color="danger" className="msg">{error}</p> : ''}
+
         <IonList>
           {prices?.map((p: any) => {
             return <IonItemSliding key={p.id}>
@@ -64,8 +67,12 @@ const TabPrices: React.FC = () => {
                 <IonItemOption color="danger" onClick={() => deletePrice(p)}>Delete</IonItemOption>
               </IonItemOptions>
 
-              <IonItem key={p.id}>
-                <IonLabel>{p.product_name}</IonLabel>
+              <IonItem key={p.id} className={'item-content day-' + (p.created_at.getDay() % 2)}>
+                <IonLabel>
+                  {p.product_name}
+                  <br />
+                  <small>{p.created_at.toLocaleString()}</small>
+                </IonLabel>
 
                 <IonLabel slot="end">{p.amount} Lei</IonLabel>
               </IonItem>
