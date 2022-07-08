@@ -1,9 +1,10 @@
-import { IonContent, IonHeader, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './TabPrices.css';
 import { useLiveQuery } from "dexie-react-hooks";
 import { appDatabase } from '../services/database';
 import { Price } from '../services/models/Price';
 import { useState } from 'react';
+import { syncCircleOutline } from 'ionicons/icons';
 
 const TabPrices: React.FC = () => {
 
@@ -43,19 +44,24 @@ const TabPrices: React.FC = () => {
     }
   }
 
+  async function syncPrices() {
+    window.alert('Sync prices to the server.');
+  }
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Prices</IonTitle>
+
+          <IonButtons slot="end">
+            <IonButton color="primary" onClick={syncPrices}>
+              <IonIcon icon={syncCircleOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Prices</IonTitle>
-          </IonToolbar>
-        </IonHeader>
 
         {msg ? <p color="primary" className="msg">{msg}</p> : ''}
         {error ? <p color="danger" className="msg">{error}</p> : ''}

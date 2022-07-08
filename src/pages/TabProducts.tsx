@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { appDatabase } from '../services/database';
 import './TabProducts.css';
 import { useLiveQuery } from "dexie-react-hooks";
-import { addCircleOutline, cartOutline } from 'ionicons/icons';
+import { addCircleOutline, cartOutline, syncCircleOutline } from 'ionicons/icons';
 import { Product } from '../services/models/Product';
 import { Price } from '../services/models/Price';
 
@@ -22,10 +22,10 @@ const TabProducts: React.FC = () => {
   const products = useLiveQuery(
     async () => {
 
-      if(pTimeout) {
+      if (pTimeout) {
         clearTimeout(pTimeout);
       }
-      pTimeout = setTimeout(() => {setMsg(''); setError('');}, 2000);
+      pTimeout = setTimeout(() => { setMsg(''); setError(''); }, 2000);
 
       return appDatabase
         .products
@@ -69,11 +69,11 @@ const TabProducts: React.FC = () => {
 
   async function buyProduct(p: Product, store: boolean = false) {
 
-    if(!store){
+    if (!store) {
       setCProduct(p);
       setShowBuyModal(true);
     }
-    else{
+    else {
       try {
         const id = await appDatabase.prices.add({
           product_id: cProduct.id,
@@ -87,7 +87,7 @@ const TabProducts: React.FC = () => {
 
         setMsg(`Product ${cProduct.name} successfully buyed.`);
         setSearchText('');
-  
+
       } catch (error) {
         setError(`Failed to buy ${cProduct.name}: ${error}`);
       }
@@ -123,6 +123,10 @@ const TabProducts: React.FC = () => {
     }
   }
 
+  async function syncProducts() {
+    window.alert('Sync products to the server.');
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -132,6 +136,10 @@ const TabProducts: React.FC = () => {
             {showAddProd ? <IonButton color="primary" onClick={addProduct}>
               <IonIcon icon={addCircleOutline} />
             </IonButton> : ''}
+
+            <IonButton color="primary" onClick={syncProducts}>
+              <IonIcon icon={syncCircleOutline} />
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -154,19 +162,19 @@ const TabProducts: React.FC = () => {
             <div className="container">
               <h1>{cProduct.name}</h1>
               <IonInput value={cProduct.lastPrice} placeholder="Price" onIonChange={e => {
-                try{
+                try {
                   cProduct.lastPrice = parseInt(e.detail.value!)
                 }
-                catch(err) {
+                catch (err) {
                   cProduct.lastPrice = 0;
                 }
-                
+
               }} />
             </div>
           </IonContent>
           <IonButton color="secondary" onClick={() => buyProduct(cProduct, true)}>Buy</IonButton>
           <IonButton onClick={() => setShowBuyModal(false)}>Close</IonButton>
-        </IonModal>        
+        </IonModal>
 
         <IonList>
           {products?.map((p: any) => {
