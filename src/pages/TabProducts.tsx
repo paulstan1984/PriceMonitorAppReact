@@ -136,8 +136,8 @@ const TabProducts: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        {msg ? <p color="primary">{msg}</p> : ''}
-        {error ? <p color="danger">{error}</p> : ''}
+        {msg ? <p color="primary" className="msg">{msg}</p> : ''}
+        {error ? <p color="danger" className="msg">{error}</p> : ''}
 
         <IonModal isOpen={showEditModal} swipeToClose={true} canDismiss={true}>
           <IonContent>

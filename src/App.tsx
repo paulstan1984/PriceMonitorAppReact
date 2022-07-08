@@ -25,6 +25,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './App.css';
 import { LoginComponent } from './components/loginComponent';
 import MainTabs from './components/MainTabs';
 import React, { useState } from 'react';
