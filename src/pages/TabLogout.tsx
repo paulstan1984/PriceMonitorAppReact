@@ -20,10 +20,9 @@ const TabLogout: React.FC = () => {
                         <IonTitle size="large">Logout</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                <div className="container">
-                    <div>
+                <div className="exit-msg">
+                    <div className="exit-msg-text">
                         <strong>Are you sure to quit?</strong>
-
                     </div>
                     <IonButton color="primary" type="submit" onClick={logout}>Yes</IonButton>
                 </div>

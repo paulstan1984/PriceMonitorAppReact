@@ -18,3 +18,12 @@
 .day-1 {
     --background: #4FE4F3!important;
 }
+
+.exit-msg {
+    text-align: center;
+    margin-top:50%;
+}
+
+.exit-msg-text{
+    margin-bottom:30px;
+}
