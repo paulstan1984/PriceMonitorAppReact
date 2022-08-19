@@ -81,7 +81,7 @@ export const LoginComponent: React.FC = () => {
                                 <IonInput type="password" value={loginRequest.Password} placeholder="Password" name="password" onIonChange={e => updateRequest('Password', e.detail.value!)}></IonInput>
                             </IonItem>
 
-                            <IonButton color="primary" type="submit">Login</IonButton>
+                            <IonButton color="primary" type="submit" className="login-btn">Login</IonButton>
                         </IonList>
                     </form>
                 </div>

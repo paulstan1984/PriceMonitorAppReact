@@ -1,22 +1,23 @@
 .msg {
     margin: 0;
-    padding: 5px;
+    padding: 20px;
     position: absolute;
-    top: 60px;
+    top: 50%;
+    margin-top:-20px;
     z-index: 99;
-    background-color: #3880fe;
+    background-color: #02D1AE;
     color: #FFFFFF;
     font-weight: bold;
     text-align: center;
     width: 100%;
 }
 
-.day-0 {
-    --background: #F7E2BC!important;
+.container{
+    text-align: center;
 }
 
-.day-1 {
-    --background: #4FE4F3!important;
+.login-btn{
+    margin-top:50px
 }
 
 .exit-msg {
@@ -26,4 +27,8 @@
 
 .exit-msg-text{
     margin-bottom:30px;
+}
+
+.modal-container{
+    text-align: center;
 }

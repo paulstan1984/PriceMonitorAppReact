@@ -1,9 +1,9 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonModal, IonPage, IonSearchbar, IonSpinner, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonModal, IonPage, IonSearchbar, IonToolbar } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { appDatabase } from '../services/database';
 import './TabProducts.css';
 import { useLiveQuery } from "dexie-react-hooks";
-import { addCircleOutline, cartOutline, syncCircleOutline } from 'ionicons/icons';
+import { addCircleOutline, carOutline, cartOutline, createOutline, exitOutline, syncCircleOutline, trashOutline } from 'ionicons/icons';
 import { Product } from '../services/models/Product';
 import { Price } from '../services/models/Price';
 
@@ -63,12 +63,14 @@ const TabProducts: React.FC = () => {
   //open the edit product modal
   async function editProduct(p: Product) {
 
+    document.querySelector("ion-item-sliding")?.closeOpened();
     setCProduct(p);
     setshowEditModal(true);
   }
 
   async function buyProduct(p: Product, store: boolean = false) {
 
+    document.querySelector("ion-item-sliding")?.closeOpened();
     if (!store) {
       setCProduct(p);
       setShowBuyModal(true);
@@ -110,6 +112,7 @@ const TabProducts: React.FC = () => {
 
   //delete product handler
   async function deleteProduct(p: Product) {
+    document.querySelector("ion-item-sliding")?.closeOpened();
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await appDatabase.products.delete(p.id);
@@ -149,17 +152,18 @@ const TabProducts: React.FC = () => {
 
         <IonModal isOpen={showEditModal} swipeToClose={true} canDismiss={true}>
           <IonContent>
-            <div className="container">
+            <div className="modal-container">
+              <h1>Edit Product</h1>
               <IonInput value={cProduct.name} placeholder="Product Name" onIonChange={e => cProduct.name = e.detail.value!} />
             </div>
           </IonContent>
-          <IonButton color="secondary" onClick={() => saveProduct(cProduct)}>Save</IonButton>
-          <IonButton onClick={() => setshowEditModal(false)}>Close</IonButton>
+          <IonButton color="secondary" onClick={() => saveProduct(cProduct)}><IonIcon icon={createOutline} /> Save</IonButton>
+          <IonButton onClick={() => setshowEditModal(false)}><IonIcon icon={exitOutline} /> Close</IonButton>
         </IonModal>
 
         <IonModal isOpen={showBuyModal} swipeToClose={true} canDismiss={true}>
           <IonContent>
-            <div className="container">
+            <div className="modal-container">
               <h1>{cProduct.name}</h1>
               <IonInput value={cProduct.lastPrice} placeholder="Price" onIonChange={e => {
                 try {
@@ -172,16 +176,16 @@ const TabProducts: React.FC = () => {
               }} />
             </div>
           </IonContent>
-          <IonButton color="secondary" onClick={() => buyProduct(cProduct, true)}>Buy</IonButton>
-          <IonButton onClick={() => setShowBuyModal(false)}>Close</IonButton>
+          <IonButton color="secondary" onClick={() => buyProduct(cProduct, true)}><IonIcon icon={cartOutline} /> Buy</IonButton>
+          <IonButton onClick={() => setShowBuyModal(false)}><IonIcon icon={exitOutline} /> Close</IonButton>
         </IonModal>
 
         <IonList>
           {products?.map((p: any) => {
             return <IonItemSliding key={p.id}>
               <IonItemOptions side="start">
-                <IonItemOption onClick={() => editProduct(p)}>Edit</IonItemOption>
-                <IonItemOption color="danger" onClick={() => deleteProduct(p)}>Delete</IonItemOption>
+                <IonItemOption onClick={() => editProduct(p)}> <IonIcon icon={createOutline}></IonIcon></IonItemOption>
+                <IonItemOption color="danger" onClick={() => deleteProduct(p)}> <IonIcon icon={trashOutline}></IonIcon></IonItemOption>
               </IonItemOptions>
 
               <IonItem key={p.id}>
