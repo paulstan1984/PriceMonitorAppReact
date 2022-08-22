@@ -16,7 +16,7 @@ class StatisticsService {
         
     }
 
-    public static GetDailyDetails(day: Date) {
+    public static GetDetails(period: string) {
         
     }
 }

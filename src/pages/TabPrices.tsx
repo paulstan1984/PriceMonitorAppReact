@@ -4,7 +4,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { appDatabase } from '../services/database';
 import { Price } from '../services/models/Price';
 import { useState } from 'react';
-import { syncCircleOutline } from 'ionicons/icons';
+import { syncCircleOutline, trashOutline } from 'ionicons/icons';
 
 const TabPrices: React.FC = () => {
 
@@ -21,11 +21,11 @@ const TabPrices: React.FC = () => {
       pTimeout = setTimeout(() => { setMsg(''); setError(''); }, 2000);
 
       let date = new Date();
-      date.setDate(date.getDate() - 1);
+      date.setDate(date.getDate() - 10);
       return appDatabase
         .prices
-        .where('created_at')
-        .aboveOrEqual(date)
+        .orderBy('created_at')
+        .reverse()
         .toArray();
     },
     []
@@ -70,7 +70,7 @@ const TabPrices: React.FC = () => {
           {prices?.map((p: any) => {
             return <IonItemSliding key={p.id}>
               <IonItemOptions side="start">
-                <IonItemOption color="danger" onClick={() => deletePrice(p)}>Delete</IonItemOption>
+                <IonItemOption color="danger" onClick={() => deletePrice(p)}><IonIcon icon={trashOutline}></IonIcon></IonItemOption>
               </IonItemOptions>
 
               <IonItem key={p.id} className={'item-content day-' + (p.created_at.getDay() % 2)}>
