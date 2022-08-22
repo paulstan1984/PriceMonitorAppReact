@@ -23,8 +23,7 @@ ChartJS.register(
   Legend
 );
 
-
-export const dailyOptions = {
+export let displayOptions = {
   responsive: true,
   plugins: {
     legend: {
@@ -33,38 +32,19 @@ export const dailyOptions = {
     },
     title: {
       display: true,
-      text: 'Daily expenses',
+      text: ''
     },
-  },
-};
+  }
+}
 
-export const monthlyOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-      display: false,
-    },
-    title: {
-      display: true,
-      text: 'Monthly expenses',
-    },
-  },
-};
+export const dailyOptions = Object.assign({}, displayOptions);
+dailyOptions.plugins.title.text = 'Monthly expenses';
 
-export const detailOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-      display: false,
-    },
-    title: {
-      display: true,
-      text: 'Detailed expenses',
-    },
-  },
-};
+export const monthlyOptions = Object.assign({}, displayOptions);
+monthlyOptions.plugins.title.text = 'Monthly expenses';
+
+export const detailOptions = Object.assign({}, displayOptions);
+monthlyOptions.plugins.title.text = 'Detailed expenses';
 
 const days = ['2022-08-01', '2022-08-02', '2022-08-03', '2022-08-04', '2022-08-05'];
 const months = ['2022-08', '2022-07', '2022-06', '2022-05', '2022-04'];
