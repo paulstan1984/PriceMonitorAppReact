@@ -5,7 +5,6 @@ import { appDatabase } from '../services/database';
 import { Price } from '../services/models/Price';
 import { useState } from 'react';
 import { syncCircleOutline, trashOutline } from 'ionicons/icons';
-import StatisticsService from '../services/statistics';
 
 const TabPrices: React.FC = () => {
 
