@@ -12,6 +12,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { Doughnut } from 'react-chartjs-2';
+import StatisticsService from '../services/statistics';
 
 ChartJS.register(
   CategoryScale,
@@ -23,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-export let displayOptions = {
+const displayOptions = {
   responsive: true,
   plugins: {
     legend: {
@@ -37,66 +38,74 @@ export let displayOptions = {
   }
 }
 
-export const dailyOptions = Object.assign({}, displayOptions);
-dailyOptions.plugins.title.text = 'Monthly expenses';
+const basicColors = [
+'rgba(255, 99, 132, 0.2)',
+'rgba(54, 162, 235, 0.2)',
+'rgba(255, 206, 86, 0.2)',
+'rgba(75, 192, 192, 0.2)',
+'rgba(153, 102, 255, 0.2)',
+]
 
-export const monthlyOptions = Object.assign({}, displayOptions);
+let dailyOptions = JSON.parse(JSON.stringify(displayOptions));
+dailyOptions.plugins.title.text = 'Daily expenses';
+
+let monthlyOptions = JSON.parse(JSON.stringify(displayOptions));
 monthlyOptions.plugins.title.text = 'Monthly expenses';
 
-export const detailOptions = Object.assign({}, displayOptions);
-monthlyOptions.plugins.title.text = 'Detailed expenses';
+let detailOptions = JSON.parse(JSON.stringify(displayOptions));
+detailOptions.plugins.title.text = 'Detailed expenses';
 
-const days = ['2022-08-01', '2022-08-02', '2022-08-03', '2022-08-04', '2022-08-05'];
-const months = ['2022-08', '2022-07', '2022-06', '2022-05', '2022-04'];
-
-export const dailyData = {
-  labels: days,
+const dailyData = {
+  labels: [] as string[],
   datasets: [
     {
       label: '',
-      data: [10, 20, 60, 20, 100],
+      data: [] as number[],
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
     }
   ],
 };
+StatisticsService.GetDailyStats().then(data => {
+  data.forEach(e => {
+    dailyData.labels.push(e.key);
+    dailyData.datasets[0].data.push(e.amount);
+  })
+});
 
-export const monthlyData = {
-  labels: months,
+const monthlyData = {
+  labels: [] as string[],
   datasets: [
     {
       label: '',
-      data: [10, 20, 60, 20, 100],
+      data: [] as number[],
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
     }
   ],
 };
+StatisticsService.GetMonthlyStats().then(data => {
+  data.forEach(e => {
+    monthlyData.labels.push(e.key);
+    monthlyData.datasets[0].data.push(e.amount);
+  })
+});
 
-export const detailedData = {
-  labels: ['Paine', 'Intretinere', 'Gaz', 'Electrica', 'Sport', 'Carti'],
+const detailedData = {
+  labels: [] as string[],
   datasets: [
     {
-      label: 'Price',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-      ],
-      borderWidth: 1,
+      label: '',
+      data: [] as number[],
+      backgroundColor: [] as string[]
     },
   ],
 };
+StatisticsService.GetDetails('2022-08').then(data => {
+  data.forEach((e, i) => {
+    detailedData.labels.push(e.key);
+    detailedData.datasets[0].data.push(e.amount);
+    detailedData.datasets[0].backgroundColor.push(basicColors[i % basicColors.length]);
+  })
+});
 
 const TabStatistics: React.FC = () => {
   return (

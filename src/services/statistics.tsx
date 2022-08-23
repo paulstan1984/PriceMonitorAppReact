@@ -53,7 +53,6 @@ class StatisticsService {
             return group;
         }, [] as StatisticsData[]);
 
-        console.log(group);
         return group;
     }
 
