@@ -14,7 +14,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { Doughnut } from 'react-chartjs-2';
 import StatisticsService from '../services/statistics';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 ChartJS.register(
   CategoryScale,
@@ -58,7 +58,7 @@ const TabStatistics: React.FC = () => {
   const monthlyOptions = { ...displayOptions, ... { plugins: { title: { text: 'Monthly expenses' } } } };
   const detailOptions = { ...displayOptions, ... { plugins: { title: { text: 'Detailed expenses' } } } };
 
-  const [dailyData, setDailyData] = useState({
+  const dailyData = {
     labels: [] as string[],
     datasets: [
       {
@@ -67,9 +67,9 @@ const TabStatistics: React.FC = () => {
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       }
     ],
-  });
+  };
 
-  const [monthlyData, setMonthlyData] = useState({
+  const monthlyData ={
     labels: [] as string[],
     datasets: [
       {
@@ -78,9 +78,9 @@ const TabStatistics: React.FC = () => {
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       }
     ],
-  });
+  };
 
-  const [detailedData, setDetailedData] = useState({
+  const detailedData = {
     labels: [] as string[],
     datasets: [
       {
@@ -89,7 +89,7 @@ const TabStatistics: React.FC = () => {
         backgroundColor: [] as string[]
       },
     ],
-  });
+  };
 
   useEffect(() => {
 
@@ -102,7 +102,6 @@ const TabStatistics: React.FC = () => {
         dailyData.datasets[0].data.push(e.amount);
       });
 
-      setDailyData(dailyData);
       let chart = (dailyChart?.current as unknown as Chart);
       if (chart !== null) {
         chart.data.labels = dailyData.labels;
@@ -120,7 +119,6 @@ const TabStatistics: React.FC = () => {
         monthlyData.datasets[0].data.push(e.amount);
       })
 
-      setMonthlyData(monthlyData);
       let chart = (monthlyChart?.current as unknown as Chart);
       if (chart !== null) {
         chart.data.labels = monthlyData.labels;
@@ -140,7 +138,6 @@ const TabStatistics: React.FC = () => {
         detailedData.datasets[0].backgroundColor.push(basicColors[i % basicColors.length]);
       })
 
-      setDetailedData(detailedData);
       let chart = (detailsChart?.current as unknown as Chart);
       if (chart !== null) {
         chart.data.labels = detailedData.labels;
