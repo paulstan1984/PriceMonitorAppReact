@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './TabStatistics.css';
 import {
   Chart as ChartJS,
@@ -11,10 +11,11 @@ import {
   Legend,
   Chart,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Bar, getDatasetAtEvent, getElementAtEvent, getElementsAtEvent } from 'react-chartjs-2';
 import { Doughnut } from 'react-chartjs-2';
 import StatisticsService from '../services/statistics';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import moment from 'moment';
 
 ChartJS.register(
   CategoryScale,
@@ -57,6 +58,8 @@ const TabStatistics: React.FC = () => {
   const dailyOptions = { ...displayOptions, ... { plugins: { title: { text: 'Daily expenses' } } } }
   const monthlyOptions = { ...displayOptions, ... { plugins: { title: { text: 'Monthly expenses' } } } };
   const detailOptions = { ...displayOptions, ... { plugins: { title: { text: 'Detailed expenses' } } } };
+
+  const [selectedTime, setSelectedTime] = useState('');
 
   const dailyData = {
     labels: [] as string[],
@@ -126,8 +129,14 @@ const TabStatistics: React.FC = () => {
         chart.update();
       }
     });
+  })
 
-    StatisticsService.GetDetails('2022-08').then(data => {
+  function GetDailyDetails(time: string){
+    
+    setSelectedTime(time);
+    console.log(time);
+
+    StatisticsService.GetDetails(time).then(data => {
       detailedData.labels = [] as string[];
       detailedData.datasets[0].data = [] as number[];
       detailedData.datasets[0].backgroundColor = [] as string[];
@@ -145,7 +154,18 @@ const TabStatistics: React.FC = () => {
         chart.update();
       }
     });
-  })
+  }
+
+  function ChartClick(event: any, chart: Chart){
+    try {
+      let index: number = getElementAtEvent(chart, event)[0].index;
+      let time = (chart.data.labels as string[])[index];
+      GetDailyDetails(time);
+    }
+    catch(e){
+
+    }
+  }
 
   return (
     <IonPage>
@@ -161,9 +181,16 @@ const TabStatistics: React.FC = () => {
           </IonToolbar>
         </IonHeader>
 
-        <Bar ref={dailyChart} options={dailyOptions} data={dailyData} />
-        <Bar ref={monthlyChart} options={monthlyOptions} data={monthlyData} />
+        <IonLabel className="label-msg">Daily prices</IonLabel>
+        <Bar ref={dailyChart} options={dailyOptions} data={dailyData} onClick={(e) => ChartClick(e, (dailyChart?.current as unknown as Chart))}/>
+        
+        <IonLabel className="label-msg">Monthly prices</IonLabel>
+        <Bar ref={monthlyChart} options={monthlyOptions} data={monthlyData} onClick={(e) => ChartClick(e, (monthlyChart?.current as unknown as Chart))}/>
+       
+        {selectedTime.length > 0 ? <div>
+        <IonLabel className="label-msg">Detailed prices {selectedTime}</IonLabel>
         <Doughnut ref={detailsChart} options={detailOptions} data={detailedData} />
+        </div> : '' }
       </IonContent>
     </IonPage>
   );

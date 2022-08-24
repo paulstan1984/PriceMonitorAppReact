@@ -16,6 +16,12 @@
     text-align: center;
 }
 
+.label-msg {
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+}
+
 .login-btn{
     margin-top:50px
 }
