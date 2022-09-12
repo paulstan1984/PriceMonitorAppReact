@@ -134,7 +134,6 @@ const TabStatistics: React.FC = () => {
   function GetDailyDetails(time: string){
     
     setSelectedTime(time);
-    console.log(time);
 
     StatisticsService.GetDetails(time).then(data => {
       detailedData.labels = [] as string[];

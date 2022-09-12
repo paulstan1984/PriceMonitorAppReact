@@ -4,7 +4,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { appDatabase } from '../services/database';
 import { Price } from '../services/models/Price';
 import { useState } from 'react';
-import { syncCircleOutline, trashOutline } from 'ionicons/icons';
+import { trashOutline } from 'ionicons/icons';
 
 const TabPrices: React.FC = () => {
 
@@ -53,12 +53,6 @@ const TabPrices: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Prices</IonTitle>
-
-          <IonButtons slot="end">
-            <IonButton color="primary" onClick={syncPrices}>
-              <IonIcon icon={syncCircleOutline} />
-            </IonButton>
-          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonFooter, IonText, IonProgressBar, IonSpinner } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonButton, IonFooter, IonText, IonProgressBar, IonSpinner } from '@ionic/react';
 import './loginComponent.css';
 import { AppConfigs } from '../config';
 import axios from 'axios';

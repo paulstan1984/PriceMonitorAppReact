@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { appDatabase } from '../services/database';
 import './TabProducts.css';
 import { useLiveQuery } from "dexie-react-hooks";
-import { addCircleOutline, carOutline, cartOutline, createOutline, exitOutline, syncCircleOutline, trashOutline } from 'ionicons/icons';
+import { addCircleOutline, carOutline, cartOutline, createOutline, exitOutline, trashOutline } from 'ionicons/icons';
 import { Product } from '../services/models/Product';
 import { Price } from '../services/models/Price';
 
@@ -139,10 +139,6 @@ const TabProducts: React.FC = () => {
             {showAddProd ? <IonButton color="primary" onClick={addProduct}>
               <IonIcon icon={addCircleOutline} />
             </IonButton> : ''}
-
-            <IonButton color="primary" onClick={syncProducts}>
-              <IonIcon icon={syncCircleOutline} />
-            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
