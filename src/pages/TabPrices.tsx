@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './TabPrices.css';
 import { useLiveQuery } from "dexie-react-hooks";
 import { appDatabase } from '../services/database';
@@ -64,7 +64,7 @@ const TabPrices: React.FC = () => {
           {prices?.map((p: any) => {
             return <IonItemSliding key={p.id}>
               <IonItemOptions side="start">
-                <IonItemOption color="danger" onClick={() => deletePrice(p)}><IonIcon icon={trashOutline}></IonIcon></IonItemOption>
+                <IonItemOption color="danger" onClick={() => deletePrice(p)}><IonIcon size="large" icon={trashOutline}></IonIcon></IonItemOption>
               </IonItemOptions>
 
               <IonItem key={p.id} className={'item-content day-' + (p.created_at.getDay() % 2)}>

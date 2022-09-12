@@ -24,7 +24,7 @@ const TabLogout: React.FC = () => {
                     <div className="exit-msg-text">
                         <strong>Are you sure to quit?</strong>
                     </div>
-                    <IonButton color="primary" type="submit" onClick={logout}>Yes</IonButton>
+                    <IonButton size="large" color="primary" type="submit" onClick={logout}>Yes</IonButton>
                 </div>
             </IonContent>
         </IonPage>

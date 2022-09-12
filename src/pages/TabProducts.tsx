@@ -150,18 +150,18 @@ const TabProducts: React.FC = () => {
           <IonContent>
             <div className="modal-container">
               <h1>Edit Product</h1>
-              <IonInput value={cProduct.name} placeholder="Product Name" onIonChange={e => cProduct.name = e.detail.value!} />
+              <IonInput className="price-input" value={cProduct.name} placeholder="Product Name" onIonChange={e => cProduct.name = e.detail.value!} />
             </div>
           </IonContent>
-          <IonButton color="secondary" onClick={() => saveProduct(cProduct)}><IonIcon icon={createOutline} /> Save</IonButton>
-          <IonButton onClick={() => setshowEditModal(false)}><IonIcon icon={exitOutline} /> Close</IonButton>
+          <IonButton size="large" color="secondary" onClick={() => saveProduct(cProduct)}><IonIcon icon={createOutline} /> Save</IonButton>
+          <IonButton size="large" onClick={() => setshowEditModal(false)}><IonIcon icon={exitOutline} /> Close</IonButton>
         </IonModal>
 
         <IonModal isOpen={showBuyModal} swipeToClose={true} canDismiss={true}>
           <IonContent>
             <div className="modal-container">
               <h1>{cProduct.name}</h1>
-              <IonInput value={cProduct.lastPrice} placeholder="Price" onIonChange={e => {
+              <IonInput className="price-input" type="number" value={cProduct.lastPrice} placeholder="Price" onIonChange={e => {
                 try {
                   cProduct.lastPrice = parseInt(e.detail.value!)
                 }
@@ -172,22 +172,22 @@ const TabProducts: React.FC = () => {
               }} />
             </div>
           </IonContent>
-          <IonButton color="secondary" onClick={() => buyProduct(cProduct, true)}><IonIcon icon={cartOutline} /> Buy</IonButton>
-          <IonButton onClick={() => setShowBuyModal(false)}><IonIcon icon={exitOutline} /> Close</IonButton>
+          <IonButton size="large" color="secondary" onClick={() => buyProduct(cProduct, true)}><IonIcon icon={cartOutline} /> Buy</IonButton>
+          <IonButton size="large" onClick={() => setShowBuyModal(false)}><IonIcon icon={exitOutline} /> Close</IonButton>
         </IonModal>
 
         <IonList>
           {products?.map((p: any) => {
             return <IonItemSliding key={p.id}>
               <IonItemOptions side="start">
-                <IonItemOption onClick={() => editProduct(p)}> <IonIcon icon={createOutline}></IonIcon></IonItemOption>
-                <IonItemOption color="danger" onClick={() => deleteProduct(p)}> <IonIcon icon={trashOutline}></IonIcon></IonItemOption>
+                <IonItemOption onClick={() => editProduct(p)}> <IonIcon size="large" icon={createOutline}></IonIcon></IonItemOption>
+                <IonItemOption color="danger" onClick={() => deleteProduct(p)}> <IonIcon size="large" icon={trashOutline}></IonIcon></IonItemOption>
               </IonItemOptions>
 
               <IonItem key={p.id}>
                 <IonLabel>{p.name}</IonLabel>
 
-                <IonButton color="primary" onClick={() => buyProduct(p, false)} fill="clear">
+                <IonButton size="large" color="primary" onClick={() => buyProduct(p, false)} fill="clear">
                   <IonIcon icon={cartOutline}></IonIcon>
                 </IonButton>
               </IonItem>

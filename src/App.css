@@ -37,4 +37,9 @@
 
 .modal-container{
     text-align: center;
+    margin:30% 0;
+}
+
+.price-input {
+    font-size: 3em;
 }
