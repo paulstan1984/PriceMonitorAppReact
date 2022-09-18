@@ -1,9 +1,8 @@
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonModal, IonPage, IonSearchbar, IonToolbar } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { appDatabase } from '../services/database';
-import './TabProducts.css';
 import { useLiveQuery } from "dexie-react-hooks";
-import { addCircleOutline, carOutline, cartOutline, createOutline, exitOutline, trashOutline } from 'ionicons/icons';
+import { addCircleOutline, cartOutline, createOutline, exitOutline, trashOutline } from 'ionicons/icons';
 import { Product } from '../services/models/Product';
 import { Price } from '../services/models/Price';
 
@@ -124,10 +123,6 @@ const TabProducts: React.FC = () => {
         setError(`Failed to delete the product: ${error}`);
       }
     }
-  }
-
-  async function syncProducts() {
-    window.alert('Sync products to the server.');
   }
 
   return (

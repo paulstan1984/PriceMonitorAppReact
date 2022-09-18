@@ -1,5 +1,4 @@
 import { IonContent, IonHeader, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './TabStatistics.css';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,11 +10,10 @@ import {
   Legend,
   Chart,
 } from 'chart.js';
-import { Bar, getDatasetAtEvent, getElementAtEvent, getElementsAtEvent } from 'react-chartjs-2';
+import { Bar, getElementAtEvent } from 'react-chartjs-2';
 import { Doughnut } from 'react-chartjs-2';
 import StatisticsService from '../services/statistics';
 import { useEffect, useRef, useState } from 'react';
-import moment from 'moment';
 
 ChartJS.register(
   CategoryScale,

@@ -3,7 +3,8 @@ import { Route, Redirect } from "react-router";
 import TabPrices from "../pages/TabPrices";
 import TabProducts from "../pages/TabProducts";
 import TabStatistics from "../pages/TabStatistics";
-import { statsChartOutline, pricetagsOutline, addCircleOutline, exitOutline } from 'ionicons/icons';
+import { statsChartOutline, pricetagsOutline, addCircleOutline, documentTextOutline } from 'ionicons/icons';
+import TabSync from "../pages/TabSync";
 
 const MainTabs: React.FC = () => {
 
@@ -23,6 +24,9 @@ const MainTabs: React.FC = () => {
                 <Route exact path="/prices">
                     <TabPrices />
                 </Route>
+                <Route exact path="/sync">
+                    <TabSync />
+                </Route>
                 <Route>
                     <Redirect to="/products" />
                 </Route>
@@ -39,6 +43,10 @@ const MainTabs: React.FC = () => {
                 <IonTabButton tab="prices" href="/prices">
                     <IonIcon icon={pricetagsOutline} />
                     <IonLabel>Prices</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="sync" href="/sync">
+                    <IonIcon icon={documentTextOutline} />
+                    <IonLabel>Sync</IonLabel>
                 </IonTabButton>
             </IonTabBar>
         </IonTabs>

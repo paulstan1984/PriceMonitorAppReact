@@ -1,5 +1,4 @@
 import { IonContent, IonHeader, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './TabPrices.css';
 import { useLiveQuery } from "dexie-react-hooks";
 import { appDatabase } from '../services/database';
 import { Price } from '../services/models/Price';
