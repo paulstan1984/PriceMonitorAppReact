@@ -4,7 +4,6 @@ import TabPrices from "../pages/TabPrices";
 import TabProducts from "../pages/TabProducts";
 import TabStatistics from "../pages/TabStatistics";
 import { statsChartOutline, pricetagsOutline, addCircleOutline, exitOutline } from 'ionicons/icons';
-import TabLogout from "../pages/TabLogout";
 
 const MainTabs: React.FC = () => {
 
@@ -24,9 +23,6 @@ const MainTabs: React.FC = () => {
                 <Route exact path="/prices">
                     <TabPrices />
                 </Route>
-                <Route exact path="/logout">
-                    <TabLogout />
-                </Route>               
                 <Route>
                     <Redirect to="/products" />
                 </Route>
@@ -43,10 +39,6 @@ const MainTabs: React.FC = () => {
                 <IonTabButton tab="prices" href="/prices">
                     <IonIcon icon={pricetagsOutline} />
                     <IonLabel>Prices</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab="logout" href="/logout">
-                    <IonIcon icon={exitOutline} />
-                    <IonLabel>Quit</IonLabel>
                 </IonTabButton>
             </IonTabBar>
         </IonTabs>

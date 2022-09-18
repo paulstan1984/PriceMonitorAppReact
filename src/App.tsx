@@ -1,11 +1,5 @@
-import { Route } from 'react-router-dom';
 import {
-  IonApp,
-  IonRouterContext,
-  setupIonicReact,
-  useIonRouter
-} from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+  setupIonicReact} from '@ionic/react';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -26,49 +20,16 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import './App.css';
-import { LoginComponent } from './components/loginComponent';
 import MainTabs from './components/MainTabs';
-import React, { useState } from 'react';
-import ProfileContext, { Profile } from './profilecontext';
+import React from 'react';
 
 setupIonicReact();
 
 const TOKEN = 'token';
 
 const App: React.FC = () => {
-
-  //set the default isLoggedIn state to the value from the local storage
-  const token = localStorage.getItem(TOKEN);
-  const [profile, setProfile] = useState({ token: token != undefined ? token : '' });
-  const [isLoggedIn, setIsLoggedIn] = useState(token != undefined);
-  const router = useIonRouter();
-
-  const updateProfile = (profile: Profile) => {
-
-    //store the profile in local storage
-    localStorage.setItem(TOKEN, profile.token);
-
-    setProfile(profile);
-    setIsLoggedIn(profile.token.length > 0);
-
-    if (profile.token.length > 0) {
-      router.push('/products');
-    }
-  }
-
-  const logout = () => {
-    localStorage.removeItem(TOKEN);
-    setProfile({ token: '' });
-    setIsLoggedIn(false);
-    router.push('/login');
-  }
-
   return (
-    <ProfileContext.Provider value={{ profile, updateProfile, logout }}>
-      <IonApp>
-        <Route component={isLoggedIn ? MainTabs : LoginComponent} />
-      </IonApp>
-    </ProfileContext.Provider>
+    <MainTabs/>
   )
 };
 

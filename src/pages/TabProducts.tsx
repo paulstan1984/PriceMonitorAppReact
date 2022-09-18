@@ -184,7 +184,7 @@ const TabProducts: React.FC = () => {
                 <IonItemOption color="danger" onClick={() => deleteProduct(p)}> <IonIcon size="large" icon={trashOutline}></IonIcon></IonItemOption>
               </IonItemOptions>
 
-              <IonItem key={p.id}>
+              <IonItem key={p.id} onClick={() => buyProduct(p, false)}>
                 <IonLabel>{p.name}</IonLabel>
 
                 <IonButton size="large" color="primary" onClick={() => buyProduct(p, false)} fill="clear">
