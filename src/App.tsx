@@ -1,5 +1,7 @@
 import {
-  setupIonicReact} from '@ionic/react';
+  IonApp,
+  setupIonicReact
+} from '@ionic/react';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -29,7 +31,9 @@ const TOKEN = 'token';
 
 const App: React.FC = () => {
   return (
-    <MainTabs/>
+    <IonApp>
+      <MainTabs />
+    </IonApp>
   )
 };
 
