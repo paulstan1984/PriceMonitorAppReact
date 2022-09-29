@@ -1,10 +1,12 @@
 import { IonButton, IonContent, IonHeader, IonIcon, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import FileSaver from 'file-saver';
 import { cloudDownloadOutline, folderOpenOutline } from 'ionicons/icons';
 
 const TabSync: React.FC = () => {
 
   async function ExportData() {
-
+    var file = new File(["Hello, world!\nline 2"], "hello world.txt", {type: "text/plain;charset=utf-8"});
+    FileSaver.saveAs(file);
   }
 
   async function ImportData() {

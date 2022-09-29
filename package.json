@@ -26,6 +26,7 @@
     "cordova-plugin-ionic": "5.5.2",
     "dexie": "^3.2.2",
     "dexie-react-hooks": "^1.1.1",
+    "file-saver": "^2.0.5",
     "ionicons": "^5.4.0",
     "moment": "^2.29.4",
     "react": "^17.0.1",
@@ -74,7 +75,8 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "3.5.1"
+    "@capacitor/cli": "3.5.1",
+    "@types/file-saver": "^2.0.5"
   },
   "description": "An Ionic project"
 }
