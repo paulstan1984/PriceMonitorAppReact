@@ -1,15 +1,8 @@
-import axios from "axios";
-import { AppConfigs } from "../config";
 import { appDatabase } from './database';
 import moment from 'moment';
 import { StatisticsData as StatisticsData } from "./models/StatisticsData";
 
 class StatisticsService {
-
-    private static headers = {
-        'Content-Type': 'application/json',
-        'Authorization': ''
-    }
 
     public static async GetMonthlyStats() {
         return StatisticsService.GetTimeStats('YYYY-MM');
