@@ -22,19 +22,6 @@
     display: inline-block;
 }
 
-.login-btn{
-    margin-top:50px
-}
-
-.exit-msg {
-    text-align: center;
-    margin-top:50%;
-}
-
-.exit-msg-text{
-    margin-bottom:30px;
-}
-
 .modal-container{
     text-align: center;
     margin:30% 0;
@@ -42,4 +29,9 @@
 
 .price-input {
     font-size: 3em;
+}
+
+.button-label {
+    text-transform: none;
+    padding-left: 10px;
 }
