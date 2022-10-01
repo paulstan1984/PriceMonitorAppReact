@@ -9,9 +9,9 @@ export class Helpers {
         }).join('\n')
     }
 
-    public static LoadFromCsv(csvString: string): any {
+    public static LoadFromCsv<T>(csvString: string): any {
         var arr = csvString.split('\n');
-        var jsonObj = [];
+        var jsonObj: T[] = [];
         var headers = arr[0].split(',');
         for (var i = 1; i < arr.length; i++) {
             var data = arr[i].split(',');
@@ -19,7 +19,7 @@ export class Helpers {
             for (var j = 0; j < data.length; j++) {
                 obj[headers[j].trim()] = data[j].trim();
             }
-            jsonObj.push(obj);
+            jsonObj.push(JSON.parse(JSON.stringify(obj)) as T);
         }
 
         return jsonObj;
