@@ -29,16 +29,16 @@ const TabSync: React.FC = () => {
     FileSaver.saveAs(file);
   }
 
-  async function ImportData() {
-    const input = document.getElementById('fileSelector') as HTMLInputElement;
-    input?.click();
+  async function OpenFileSelector() {
+    const fileSelector = document.getElementById('fileSelector') as HTMLInputElement;
+    fileSelector?.click();
   }
 
-  function selectImportFile(e: any) {
-    console.log(e);
-
+  function OnImportFileSelected(e: any) {
     // getting a hold of the file reference
     var file = e.target.files[0];
+
+    console.log(file);
 
     // setting up the reader
     var reader = new FileReader();
@@ -65,14 +65,10 @@ const TabSync: React.FC = () => {
 
           <IonButton size="large" color="primary" onClick={() => ExportData('products')}><IonIcon icon={cloudDownloadOutline} /><IonLabel className="button-label"> Export producs as csv</IonLabel></IonButton>
           <IonButton size="large" color="primary" onClick={() => ExportData('prices')}><IonIcon icon={cloudDownloadOutline} /><IonLabel className="button-label"> Export prices as csv</IonLabel></IonButton>
+          <IonButton size="large" color="primary" onClick={() => OpenFileSelector()}><IonIcon icon={folderOpenOutline} /><IonLabel className="button-label"> Import from csv</IonLabel></IonButton>
 
-          <IonButton size="large" color="primary" onClick={() => ImportData()}><IonIcon icon={folderOpenOutline} /><IonLabel className="button-label"> Import frum csv</IonLabel></IonButton>
-
-          <input id="fileSelector" type="file" className="hidden" onChange={(e) => selectImportFile(e)} />
+          <input id="fileSelector" type="file" className="hidden" onChange={(e) => OnImportFileSelected(e)} />
         </div>
-
-
-        <div>{fileContent}</div>
       </IonContent>
     </IonPage>
   );
