@@ -20,7 +20,7 @@ const TabPrices: React.FC = () => {
       pTimeout = setTimeout(() => { setMsg(''); setError(''); }, 2000);
 
       let date = new Date();
-      date.setDate(date.getDate() - 10);
+      date.setDate(date.getDate() - 50);
       return appDatabase
         .prices
         .orderBy('created_at')

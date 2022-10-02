@@ -84,8 +84,6 @@ const TabProducts: React.FC = () => {
           updated_at: new Date()
         } as Price);
 
-        await appDatabase.products.update(cProduct.id, p);
-
         setMsg(`Product ${cProduct.name} successfully buyed.`);
         setSearchText('');
 
@@ -100,6 +98,17 @@ const TabProducts: React.FC = () => {
   async function saveProduct(p: Product) {
     try {
       await appDatabase.products.update(p.id, p);
+
+      let prices = await appDatabase.prices
+            .where('product_id')
+            .equals(p.id)
+            .toArray();
+      
+      //update all prices
+      prices.forEach(price => {
+        price.product_name = p.name; 
+        appDatabase.prices.update(price.id, price);
+      });
 
       setMsg(`Product ${searchText} successfully updated.`);
       setSearchText('');
