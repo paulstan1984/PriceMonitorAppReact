@@ -54,16 +54,29 @@ const TabSync: React.FC = () => {
 
         console.log(file.name);
         if(file.name.toLowerCase().indexOf('price') !== -1) {
-          let prices = Helpers.LoadFromCsv<Price>(content as string);
-          console.log('Prices', prices);
+          appDatabase.prices.clear();
+          
+          (Helpers.LoadFromCsv<Price>(content as string) as Price[])
+          .map(p => {
+            p.created_at = new Date(p.created_at);
+            p.updated_at = new Date(p.updated_at);
+            p.amount = parseInt(p.amount as unknown as string, 10);
+            return p;
+          })
+          .forEach(p => appDatabase.prices.add(p));
         }
         
         if(file.name.toLowerCase().indexOf('products') !== -1) {
-          let products = Helpers.LoadFromCsv<Product>(content as string);
-          console.log('Products', products);
+          appDatabase.products.clear();
+          
+          (Helpers.LoadFromCsv<Product>(content as string) as Product[])
+          .map(p => {
+            p.created_at = new Date(p.created_at);
+            p.updated_at = new Date(p.updated_at);
+            return p;
+          })
+          .forEach(p => appDatabase.products.add(p));
         }
-
-        console.log(content);
       }
 
       try {

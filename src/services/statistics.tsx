@@ -4,7 +4,7 @@ import { StatisticsData as StatisticsData } from "./models/StatisticsData";
 
 class StatisticsService {
 
-    public static async GetMonthlyStats() {
+    public static GetMonthlyStats() {
         return StatisticsService.GetTimeStats('YYYY-MM');
     }
 
@@ -15,11 +15,13 @@ class StatisticsService {
     private static async GetTimeStats(format: string) {
         let startDate = new Date();
 
-        if(format.length == 7) {
-            startDate.setDate(startDate.getDate() - 5);
+        if(format.length == 10) {
+            //last 15 days
+            startDate.setDate(startDate.getDate() - 15);
         }
 
-        if(format.length == 10) {
+        if(format.length == 7) {
+            //last 5 months
             startDate.setMonth(startDate.getMonth() - 5);
         }
 
