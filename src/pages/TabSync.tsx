@@ -39,7 +39,7 @@ const TabSync: React.FC = () => {
     fileSelector?.click();
   }
 
-  function OnImportFileSelected(e: any) {
+  async function OnImportFileSelected(e: any) {
 
     for (let i = 0; i < e.target.files.length; i++) {
       let file = e.target.files[i];
@@ -48,14 +48,13 @@ const TabSync: React.FC = () => {
       var reader = new FileReader();
 
       // here we tell the reader what to do when it's done reading...
-      reader.onload = readerEvent => {
+      reader.onload = async (readerEvent) => {
         var content = readerEvent.target?.result; // this is the content!
         setFileContent(content as string);
 
-        console.log(file.name);
         if(file.name.toLowerCase().indexOf('price') !== -1) {
-          appDatabase.prices.clear();
-          
+          await appDatabase.prices.clear();
+
           (Helpers.LoadFromCsv<Price>(content as string) as Price[])
           .map(p => {
             p.created_at = new Date(p.created_at);
@@ -63,11 +62,17 @@ const TabSync: React.FC = () => {
             p.amount = parseInt(p.amount as unknown as string, 10);
             return p;
           })
-          .forEach(p => appDatabase.prices.add(p));
+          .forEach(async(p) => {
+            let np : any = {};
+            Object.assign(np, p);
+            delete np.id;
+            
+            await appDatabase.prices.add(np);
+          });
         }
         
         if(file.name.toLowerCase().indexOf('products') !== -1) {
-          appDatabase.products.clear();
+          await appDatabase.products.clear();
           
           (Helpers.LoadFromCsv<Product>(content as string) as Product[])
           .map(p => {
@@ -75,7 +80,13 @@ const TabSync: React.FC = () => {
             p.updated_at = new Date(p.updated_at);
             return p;
           })
-          .forEach(p => appDatabase.products.add(p));
+          .forEach(async(p) => {
+            let np : any = {};
+            Object.assign(np, p);
+            delete np.id;
+            
+            await appDatabase.products.add(np);
+          });
         }
       }
 
