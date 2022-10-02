@@ -1,9 +1,10 @@
-import { IonContent, IonHeader, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonModal, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { useLiveQuery } from "dexie-react-hooks";
 import { appDatabase } from '../services/database';
 import { Price } from '../services/models/Price';
 import { useState } from 'react';
-import { trashOutline } from 'ionicons/icons';
+import { cartOutline, exitOutline, trashOutline } from 'ionicons/icons';
+import { Product } from '../services/models/Product';
 
 const TabPrices: React.FC = () => {
 
@@ -43,8 +44,36 @@ const TabPrices: React.FC = () => {
     }
   }
 
-  async function syncPrices() {
-    window.alert('Sync prices to the server.');
+  const [showBuyModal, setShowBuyModal] = useState(false);
+  const [cProduct, setCProduct] = useState({} as Product);
+
+  async function buyProduct(pname: string, store: boolean = false) {
+   
+    document.querySelector("ion-item-sliding")?.closeOpened();
+    if (!store) {
+      console.log(pname);
+      let prod = await appDatabase.products.where('name').equals(pname).first() as Product;
+      console.log(prod);
+      setCProduct(prod);
+      setShowBuyModal(true);
+    }
+    else {
+      try {
+        const id = await appDatabase.prices.add({
+          product_id: cProduct.id,
+          product_name: cProduct.name,
+          amount: cProduct.lastPrice,
+          created_at: new Date(),
+          updated_at: new Date()
+        } as Price);
+
+        setMsg(`Product ${cProduct.name} successfully buyed.`);
+
+      } catch (error) {
+        setError(`Failed to buy ${cProduct.name}: ${error}`);
+      }
+      setShowBuyModal(false);
+    }
   }
 
   return (
@@ -59,6 +88,25 @@ const TabPrices: React.FC = () => {
         {msg ? <p color="primary" className="msg">{msg}</p> : ''}
         {error ? <p color="danger" className="msg">{error}</p> : ''}
 
+        <IonModal isOpen={showBuyModal} swipeToClose={true} canDismiss={true}>
+          <IonContent>
+            <div className="modal-container">
+              <h1>{cProduct.name}</h1>
+              <IonInput className="price-input" type="number" value={cProduct.lastPrice} placeholder="Price" onIonChange={e => {
+                try {
+                  cProduct.lastPrice = parseInt(e.detail.value!)
+                }
+                catch (err) {
+                  cProduct.lastPrice = 0;
+                }
+
+              }} />
+            </div>
+          </IonContent>
+          <IonButton size="large" color="secondary" onClick={() => buyProduct(cProduct.name, true)}><IonIcon icon={cartOutline} /> Buy</IonButton>
+          <IonButton size="large" onClick={() => setShowBuyModal(false)}><IonIcon icon={exitOutline} /> Close</IonButton>
+        </IonModal>
+        
         <IonList>
           {prices?.map((p: any) => {
             return <IonItemSliding key={p.id}>
@@ -66,7 +114,7 @@ const TabPrices: React.FC = () => {
                 <IonItemOption color="danger" onClick={() => deletePrice(p)}><IonIcon size="large" icon={trashOutline}></IonIcon></IonItemOption>
               </IonItemOptions>
 
-              <IonItem key={p.id} className={'item-content day-' + (p.created_at.getDay() % 2)}>
+              <IonItem key={p.id} onClick={() => buyProduct(p.product_name, false)} className={'item-content day-' + (p.created_at.getDay() % 2)}>
                 <IonLabel>
                   {p.product_name}
                   <br />
