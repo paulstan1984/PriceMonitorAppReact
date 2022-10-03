@@ -53,7 +53,6 @@ const TabPrices: React.FC = () => {
     if (!store) {
       console.log(pname);
       let prod = await appDatabase.products.where('name').equals(pname).first() as Product;
-      console.log(prod);
       setCProduct(prod);
       setShowBuyModal(true);
     }
@@ -66,6 +65,8 @@ const TabPrices: React.FC = () => {
           created_at: new Date(),
           updated_at: new Date()
         } as Price);
+
+        appDatabase.products.update(cProduct.id, cProduct);
 
         setMsg(`Product ${cProduct.name} successfully buyed.`);
 

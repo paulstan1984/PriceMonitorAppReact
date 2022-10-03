@@ -84,6 +84,8 @@ const TabProducts: React.FC = () => {
           updated_at: new Date()
         } as Price);
 
+        appDatabase.products.update(cProduct.id, cProduct);
+
         setMsg(`Product ${cProduct.name} successfully buyed.`);
         setSearchText('');
 
