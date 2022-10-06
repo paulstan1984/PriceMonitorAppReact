@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
     <title>Price Monitor App</title>
 
     <base href="/" />
@@ -28,4 +29,6 @@
     <div id="root"></div>
   </body>
 
+  <script src="cordova.js"></script>
+  <script src="js/index.js"></script>
 </html>
