@@ -1,6 +1,6 @@
 import { IonButton, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import FileSaver from 'file-saver';
-import { cloudDownloadOutline, folderOpenOutline, moonOutline } from 'ionicons/icons';
+import { cloudDownloadOutline, folderOpenOutline, logoTiktok, moonOutline } from 'ionicons/icons';
 import { useState } from 'react';
 import { appDatabase } from '../services/database';
 import { Helpers } from '../services/helpers';
@@ -99,6 +99,8 @@ const TabSync: React.FC = () => {
   //#endregion
 
   async function ToggleTheme() {
+    console.log('toggle');
+    console.log(document.body.classList);
     document.body.classList.toggle('dark');
   }
 
@@ -118,6 +120,9 @@ const TabSync: React.FC = () => {
           <IonButton size="large" color="primary" onClick={() => OpenFileSelector()}><IonIcon icon={folderOpenOutline} /><IonLabel className="button-label"> Import from csv</IonLabel></IonButton>
 
           <input id="fileSelector" type="file" multiple className="hidden" onChange={(e) => OnImportFileSelected(e)} />
+
+          <hr />
+          <IonButton size="large" color="primary" onClick={() => ToggleTheme()}><IonIcon icon={moonOutline} /><IonLabel className="button-label"> Toggle</IonLabel></IonButton>
 
         </div>
       </IonContent>
