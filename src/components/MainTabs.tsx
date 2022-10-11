@@ -36,13 +36,13 @@ const MainTabs: React.FC = () => {
                     <IonIcon icon={addCircleOutline} />
                     <IonLabel>Products</IonLabel>
                 </IonTabButton>
-                <IonTabButton tab="statistics" href="/statistics">
-                    <IonIcon icon={statsChartOutline} />
-                    <IonLabel>Statistuics</IonLabel>
-                </IonTabButton>
                 <IonTabButton tab="prices" href="/prices">
                     <IonIcon icon={pricetagsOutline} />
                     <IonLabel>Prices</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="statistics" href="/statistics">
+                    <IonIcon icon={statsChartOutline} />
+                    <IonLabel>Statistuics</IonLabel>
                 </IonTabButton>
                 <IonTabButton tab="sync" href="/sync">
                     <IonIcon icon={documentTextOutline} />

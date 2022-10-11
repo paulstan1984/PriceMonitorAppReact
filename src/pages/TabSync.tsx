@@ -1,6 +1,6 @@
 import { IonButton, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import FileSaver from 'file-saver';
-import { cloudDownloadOutline, folderOpenOutline } from 'ionicons/icons';
+import { cloudDownloadOutline, folderOpenOutline, moonOutline } from 'ionicons/icons';
 import { useState } from 'react';
 import { appDatabase } from '../services/database';
 import { Helpers } from '../services/helpers';
@@ -52,41 +52,41 @@ const TabSync: React.FC = () => {
         var content = readerEvent.target?.result; // this is the content!
         setFileContent(content as string);
 
-        if(file.name.toLowerCase().indexOf('price') !== -1) {
+        if (file.name.toLowerCase().indexOf('price') !== -1) {
           await appDatabase.prices.clear();
 
           (Helpers.LoadFromCsv<Price>(content as string) as Price[])
-          .map(p => {
-            p.created_at = new Date(p.created_at);
-            p.updated_at = new Date(p.updated_at);
-            p.amount = parseInt(p.amount as unknown as string, 10);
-            return p;
-          })
-          .forEach(async(p) => {
-            let np : any = {};
-            Object.assign(np, p);
-            delete np.id;
-            
-            await appDatabase.prices.add(np);
-          });
+            .map(p => {
+              p.created_at = new Date(p.created_at);
+              p.updated_at = new Date(p.updated_at);
+              p.amount = parseInt(p.amount as unknown as string, 10);
+              return p;
+            })
+            .forEach(async (p) => {
+              let np: any = {};
+              Object.assign(np, p);
+              delete np.id;
+
+              await appDatabase.prices.add(np);
+            });
         }
-        
-        if(file.name.toLowerCase().indexOf('products') !== -1) {
+
+        if (file.name.toLowerCase().indexOf('products') !== -1) {
           await appDatabase.products.clear();
-          
+
           (Helpers.LoadFromCsv<Product>(content as string) as Product[])
-          .map(p => {
-            p.created_at = new Date(p.created_at);
-            p.updated_at = new Date(p.updated_at);
-            return p;
-          })
-          .forEach(async(p) => {
-            let np : any = {};
-            Object.assign(np, p);
-            delete np.id;
-            
-            await appDatabase.products.add(np);
-          });
+            .map(p => {
+              p.created_at = new Date(p.created_at);
+              p.updated_at = new Date(p.updated_at);
+              return p;
+            })
+            .forEach(async (p) => {
+              let np: any = {};
+              Object.assign(np, p);
+              delete np.id;
+
+              await appDatabase.products.add(np);
+            });
         }
       }
 
@@ -97,6 +97,10 @@ const TabSync: React.FC = () => {
     }
   }
   //#endregion
+
+  async function ToggleTheme() {
+    document.body.classList.toggle('dark');
+  }
 
   return (
     <IonPage>
@@ -114,6 +118,7 @@ const TabSync: React.FC = () => {
           <IonButton size="large" color="primary" onClick={() => OpenFileSelector()}><IonIcon icon={folderOpenOutline} /><IonLabel className="button-label"> Import from csv</IonLabel></IonButton>
 
           <input id="fileSelector" type="file" multiple className="hidden" onChange={(e) => OnImportFileSelected(e)} />
+
         </div>
       </IonContent>
     </IonPage>
