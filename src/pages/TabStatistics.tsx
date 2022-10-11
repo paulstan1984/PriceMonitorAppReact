@@ -182,7 +182,7 @@ const TabStatistics: React.FC = () => {
         <Bar height="300px" ref={dailyChart} options={dailyOptions} data={dailyData} onClick={(e) => ChartClick(e, (dailyChart?.current as unknown as Chart))}/>
         
         <IonLabel className="label-msg">Monthly prices</IonLabel>
-        <Bar height="300px" ref={monthlyChart} options={monthlyOptions} data={monthlyData} onClick={(e) => ChartClick(e, (monthlyChart?.current as unknown as Chart))}/>
+        <Bar ref={monthlyChart} options={monthlyOptions} data={monthlyData} onClick={(e) => ChartClick(e, (monthlyChart?.current as unknown as Chart))}/>
        
         {selectedTime.length > 0 ? <div>
         <IonLabel className="label-msg">Detailed prices {selectedTime}</IonLabel>
