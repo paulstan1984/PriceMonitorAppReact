@@ -1,6 +1,6 @@
 import { IonButton, IonContent, IonHeader, IonIcon, IonInput, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import FileSaver from 'file-saver';
-import { cloudDownloadOutline, folderOpenOutline, logoTiktok, moonOutline } from 'ionicons/icons';
+import { cloudDownloadOutline, folderOpenOutline, logoTiktok, moonOutline, trashOutline } from 'ionicons/icons';
 import { useState } from 'react';
 import { appDatabase } from '../services/database';
 import { Helpers } from '../services/helpers';
@@ -53,7 +53,6 @@ const TabSync: React.FC = () => {
         setFileContent(content as string);
 
         if (file.name.toLowerCase().indexOf('price') !== -1) {
-          await appDatabase.prices.clear();
 
           (Helpers.LoadFromCsv<Price>(content as string) as Price[])
             .map(p => {
@@ -99,9 +98,13 @@ const TabSync: React.FC = () => {
   //#endregion
 
   async function ToggleTheme() {
-    console.log('toggle');
-    console.log(document.body.classList);
     document.body.classList.toggle('dark');
+  }
+
+  async function ClearDatabase() {
+    if (window.confirm('Are you sure?')) {
+      await appDatabase.deleteDatabase();
+    }
   }
 
   return (
@@ -119,6 +122,7 @@ const TabSync: React.FC = () => {
           <IonButton size="large" color="primary" onClick={() => ExportData('prices')}><IonIcon icon={cloudDownloadOutline} /><IonLabel className="button-label"> Export prices as csv</IonLabel></IonButton>
           <IonButton size="large" color="primary" onClick={() => OpenFileSelector()}><IonIcon icon={folderOpenOutline} /><IonLabel className="button-label"> Import from csv</IonLabel></IonButton>
 
+          <IonButton size="large" color="danger" onClick={() => ClearDatabase()}><IonIcon icon={trashOutline} /><IonLabel className="button-label"> Clear database</IonLabel></IonButton>
           <input id="fileSelector" type="file" multiple className="hidden" onChange={(e) => OnImportFileSelected(e)} />
 
           <hr />

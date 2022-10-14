@@ -22,6 +22,11 @@ export class AppDatabaseDexie extends Dexie {
             prices: '++id, product_id,created_at',
         });
     }
+
+    async deleteDatabase() {
+        await Dexie.delete('PriceAppDatabase');
+        await this.open();
+    }
 }
 
 export const appDatabase = new AppDatabaseDexie();
