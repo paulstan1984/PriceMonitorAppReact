@@ -79,7 +79,7 @@ const TabProducts: React.FC = () => {
         const id = await appDatabase.prices.add({
           product_id: cProduct.id,
           product_name: cProduct.name,
-          amount: cProduct.lastPrice,
+          amount: parseInt(cProduct.lastPrice as unknown as string),
           created_at: new Date(),
           updated_at: new Date()
         } as Price);

@@ -185,7 +185,7 @@ const TabStatistics: React.FC = () => {
         <IonLabel className="label-msg">Monthly prices</IonLabel>
         <Bar ref={monthlyChart} options={monthlyOptions} data={monthlyData} onClick={(e) => ChartClick(e, (monthlyChart?.current as unknown as Chart))} />
 
-        <IonInput type="date" onIonChange={(e) => GetDailyDetails(e.detail.value as string)} />
+        <IonInput type="date" className="form-input" placeholder="Select the day..." onIonChange={(e) => GetDailyDetails(e.detail.value as string)} />
 
         {selectedTime.length > 0 ? <div>
           <IonLabel className="label-msg">Detailed prices {selectedTime}</IonLabel>

@@ -31,6 +31,12 @@
     font-size: 3em;
 }
 
+.form-input {
+    border: solid 1px #ccc;
+    padding: 1em;
+    width: 100%;
+}
+
 .button-label {
     text-transform: none;
     padding-left: 10px;

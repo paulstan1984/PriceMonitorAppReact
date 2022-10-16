@@ -61,7 +61,7 @@ const TabPrices: React.FC = () => {
         const id = await appDatabase.prices.add({
           product_id: cProduct.id,
           product_name: cProduct.name,
-          amount: cProduct.lastPrice,
+          amount: parseInt(cProduct.lastPrice as unknown as string),
           created_at: new Date(),
           updated_at: new Date()
         } as Price);
@@ -109,7 +109,7 @@ const TabPrices: React.FC = () => {
         </IonModal>
         
         <IonList>
-          {prices?.map((p: any) => {
+          {prices?.map((p: Price) => {
             return <IonItemSliding key={p.id}>
               <IonItemOptions side="start">
                 <IonItemOption color="danger" onClick={() => deletePrice(p)}><IonIcon size="large" icon={trashOutline}></IonIcon></IonItemOption>
