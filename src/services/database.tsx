@@ -3,14 +3,15 @@ import Dexie, { Table } from 'dexie';
 import { Price } from './models/Price';
 import { Product } from './models/Product';
 
+export const dbName: string = 'PriceAppDatabase';
 
 export class AppDatabaseDexie extends Dexie {
 
     products!: Table<Product>;
     prices!: Table<Price>;
-
+    
     constructor() {
-        super('PriceAppDatabase');
+        super(dbName);
         
         this.version(1).stores({
             products: '++id, name',
@@ -24,7 +25,7 @@ export class AppDatabaseDexie extends Dexie {
     }
 
     async deleteDatabase() {
-        await Dexie.delete('PriceAppDatabase');
+        await Dexie.delete(dbName);
         await this.open();
     }
 }

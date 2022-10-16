@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonInput, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -70,7 +70,7 @@ const TabStatistics: React.FC = () => {
     ],
   };
 
-  const monthlyData ={
+  const monthlyData = {
     labels: [] as string[],
     datasets: [
       {
@@ -95,6 +95,7 @@ const TabStatistics: React.FC = () => {
   useEffect(() => {
 
     StatisticsService.GetDailyStats().then(data => {
+
       dailyData.labels = [] as string[];
       dailyData.datasets[0].data = [] as number[];
 
@@ -129,8 +130,8 @@ const TabStatistics: React.FC = () => {
     });
   })
 
-  function GetDailyDetails(time: string){
-    
+  function GetDailyDetails(time: string) {
+
     setSelectedTime(time);
 
     StatisticsService.GetDetails(time).then(data => {
@@ -153,13 +154,13 @@ const TabStatistics: React.FC = () => {
     });
   }
 
-  function ChartClick(event: any, chart: Chart){
+  function ChartClick(event: any, chart: Chart) {
     try {
       let index: number = getElementAtEvent(chart, event)[0].index;
       let time = (chart.data.labels as string[])[index];
       GetDailyDetails(time);
     }
-    catch(e){
+    catch (e) {
 
     }
   }
@@ -179,15 +180,17 @@ const TabStatistics: React.FC = () => {
         </IonHeader>
 
         <IonLabel className="label-msg">Daily prices</IonLabel>
-        <Bar height="300px" ref={dailyChart} options={dailyOptions} data={dailyData} onClick={(e) => ChartClick(e, (dailyChart?.current as unknown as Chart))}/>
-        
+        <Bar height="300px" ref={dailyChart} options={dailyOptions} data={dailyData} onClick={(e) => ChartClick(e, (dailyChart?.current as unknown as Chart))} />
+
         <IonLabel className="label-msg">Monthly prices</IonLabel>
-        <Bar ref={monthlyChart} options={monthlyOptions} data={monthlyData} onClick={(e) => ChartClick(e, (monthlyChart?.current as unknown as Chart))}/>
-       
+        <Bar ref={monthlyChart} options={monthlyOptions} data={monthlyData} onClick={(e) => ChartClick(e, (monthlyChart?.current as unknown as Chart))} />
+
+        <IonInput type="date" onIonChange={(e) => GetDailyDetails(e.detail.value as string)} />
+
         {selectedTime.length > 0 ? <div>
-        <IonLabel className="label-msg">Detailed prices {selectedTime}</IonLabel>
-        <Doughnut ref={detailsChart} options={detailOptions} data={detailedData} />
-        </div> : '' }
+          <IonLabel className="label-msg">Detailed prices {selectedTime}</IonLabel>
+          <Doughnut ref={detailsChart} options={detailOptions} data={detailedData} />
+        </div> : ''}
       </IonContent>
     </IonPage>
   );
