@@ -30,9 +30,6 @@ const TabSync: React.FC = () => {
 
     // var file = new File([csvContent], entity + ".csv", { type: "text/plain;charset=utf-8" });
     // FileSaver.saveAs(file);
-
-    const file = cordova as unknown as any;
-    alert(File);
     
     // await file.writeFile(file.dataDirectory, entity + ".csv", csvContent);
 
