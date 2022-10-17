@@ -51,7 +51,6 @@ const TabPrices: React.FC = () => {
    
     document.querySelector("ion-item-sliding")?.closeOpened();
     if (!store) {
-      console.log(pname);
       let prod = await appDatabase.products.where('name').equals(pname).first() as Product;
       setCProduct(prod);
       setShowBuyModal(true);
