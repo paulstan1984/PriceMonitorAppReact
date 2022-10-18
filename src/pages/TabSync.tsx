@@ -5,7 +5,7 @@ import { appDatabase } from '../services/database';
 import { Helpers } from '../services/helpers';
 import { Price } from '../services/models/Price';
 import { Product } from '../services/models/Product';
-import { File } from '@awesome-cordova-plugins/file/ngx';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
 const TabSync: React.FC = () => {
 
@@ -26,12 +26,16 @@ const TabSync: React.FC = () => {
         break;
     }
 
-    var csvContent = Helpers.ConvertToCSV(entities);
+    var csvContent = Helpers.ConvertToCSV(entities)
 
-    // var file = new File([csvContent], entity + ".csv", { type: "text/plain;charset=utf-8" });
-    // FileSaver.saveAs(file);
+    alert(Directory.Documents);
     
-    // await file.writeFile(file.dataDirectory, entity + ".csv", csvContent);
+    await Filesystem.writeFile({
+      path: entity + ".csv",
+      data: csvContent,
+      directory: Directory.Documents,
+      encoding: Encoding.UTF8,
+    });
 
     alert('Ok');
   }
