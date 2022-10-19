@@ -6,6 +6,7 @@ import { Helpers } from '../services/helpers';
 import { Price } from '../services/models/Price';
 import { Product } from '../services/models/Product';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 
 const TabSync: React.FC = () => {
 
@@ -27,17 +28,18 @@ const TabSync: React.FC = () => {
     }
 
     var csvContent = Helpers.ConvertToCSV(entities)
+    const cordova = window.cordova as unknown as any;
 
-    alert(Directory.Documents);
+    alert('cordova' + cordova);
+
+    if (cordova != undefined) {
+      alert('cordova.file' + cordova.file);
+      alert(cordova.file.dataDirectory);
+     
+      alert(JSON.stringify(cordova.file));
     
-    await Filesystem.writeFile({
-      path: entity + ".csv",
-      data: csvContent,
-      directory: Directory.Documents,
-      encoding: Encoding.UTF8,
-    });
-
-    alert('Ok');
+      alert(entity + ".csv saved.");
+    }
   }
   //#endregion
 

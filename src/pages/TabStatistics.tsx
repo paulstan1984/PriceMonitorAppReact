@@ -58,6 +58,7 @@ const TabStatistics: React.FC = () => {
   const detailOptions = { ...displayOptions, ... { plugins: { title: { text: 'Detailed expenses' } } } };
 
   const [selectedTime, setSelectedTime] = useState('');
+  const [TotalAmount, setTotalAmount] = useState(0);
 
   const dailyData = {
     labels: [] as string[],
@@ -130,9 +131,17 @@ const TabStatistics: React.FC = () => {
     });
   })
 
-  function GetDailyDetails(time: string) {
+  async function GetDailyDetails(time: string) {
 
     setSelectedTime(time);
+    setTotalAmount(200);
+
+    const data = await StatisticsService.GetDetails(time);
+    let total = 0;
+    data.forEach((e, i) => {
+      total += e.amount;
+    });
+    setTotalAmount(total);
 
     StatisticsService.GetDetails(time).then(data => {
       detailedData.labels = [] as string[];
@@ -189,6 +198,7 @@ const TabStatistics: React.FC = () => {
 
         {selectedTime.length > 0 ? <div>
           <IonLabel className="label-msg">Detailed prices {selectedTime}</IonLabel>
+          <IonLabel className="label-msg">Total: {TotalAmount} Lei</IonLabel>
           <Doughnut ref={detailsChart} options={detailOptions} data={detailedData} />
         </div> : ''}
       </IonContent>
