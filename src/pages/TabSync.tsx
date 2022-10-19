@@ -8,6 +8,11 @@ import { Product } from '../services/models/Product';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 
+//nice -> will try
+//https://cordova.apache.org/docs/en/3.3.0/cordova/file/filewriter/filewriter.html
+declare let window: any; // <--- Declare it like this
+declare let LocalFileSystem: any;
+
 const TabSync: React.FC = () => {
 
   const [fileContent, setFileContent] = useState('');
@@ -28,18 +33,34 @@ const TabSync: React.FC = () => {
     }
 
     var csvContent = Helpers.ConvertToCSV(entities)
-    const cordova = window.cordova as unknown as any;
-
-    alert('cordova' + cordova);
+    const cordova = window.cordova;
 
     if (cordova != undefined) {
-      alert('cordova.file' + cordova.file);
-      alert(cordova.file.dataDirectory);
-     
-      alert(JSON.stringify(cordova.file));
-    
+      
+      window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+
       alert(entity + ".csv saved.");
     }
+  }
+
+  function gotFS(fileSystem: any) {
+    alert(fileSystem);
+    fileSystem.root.getFile("readme.txt", { create: true, exclusive: false }, gotFileEntry, fail);
+  }
+
+  function gotFileEntry(fileEntry: any) {
+    alert(fileEntry);
+    fileEntry.createWriter(gotFileWriter, fail);
+  }
+
+  function gotFileWriter(writer: any) {
+    writer.write("some sample text");
+    
+    alert('end');
+  }
+
+  function fail(error: any) {
+    console.log(error.code);
   }
   //#endregion
 
