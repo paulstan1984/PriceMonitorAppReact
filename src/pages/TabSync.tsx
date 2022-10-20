@@ -5,13 +5,8 @@ import { appDatabase } from '../services/database';
 import { Helpers } from '../services/helpers';
 import { Price } from '../services/models/Price';
 import { Product } from '../services/models/Product';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
-import { File } from '@awesome-cordova-plugins/file/ngx';
 
-//nice -> will try
-//https://cordova.apache.org/docs/en/3.3.0/cordova/file/filewriter/filewriter.html
 declare let window: any; // <--- Declare it like this
-declare let LocalFileSystem: any;
 
 const TabSync: React.FC = () => {
 
@@ -33,17 +28,13 @@ const TabSync: React.FC = () => {
     }
 
     var csvContent = Helpers.ConvertToCSV(entities)
-    const cordova = window.cordova;
 
-    alert(window.NativeFunctions);
+    if (window.NativeFunctions !== undefined) {
 
-    alert(window.NativeFunctions.sayHello('Paul'));
-
-    if (cordova != undefined) {
-
-      window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
-
-      alert(entity + ".csv saved.");
+      const response = window.NativeFunctions.writeFile(entities + '.csv', csvContent);
+      window.alert(response);
+    } else {
+      window.alert('Not on android.');
     }
   }
 
