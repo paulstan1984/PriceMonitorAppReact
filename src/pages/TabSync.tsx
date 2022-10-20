@@ -31,7 +31,7 @@ const TabSync: React.FC = () => {
 
     if (window.NativeFunctions !== undefined) {
 
-      const response = window.NativeFunctions.writeFile(entities + '.csv', csvContent);
+      const response = window.NativeFunctions.writeFile(entity + '.csv', csvContent);
       window.alert(response);
     } else {
       window.alert('Not on android.');
