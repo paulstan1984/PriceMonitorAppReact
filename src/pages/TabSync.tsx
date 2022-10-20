@@ -35,8 +35,12 @@ const TabSync: React.FC = () => {
     var csvContent = Helpers.ConvertToCSV(entities)
     const cordova = window.cordova;
 
+    alert(window.NativeFunctions);
+
+    alert(window.NativeFunctions.sayHello('Paul'));
+
     if (cordova != undefined) {
-      
+
       window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 
       alert(entity + ".csv saved.");
@@ -55,7 +59,7 @@ const TabSync: React.FC = () => {
 
   function gotFileWriter(writer: any) {
     writer.write("some sample text");
-    
+
     alert('end');
   }
 
